@@ -1,4 +1,3 @@
-// import { ranges } from "../ranges.config";
 
 class Range {
     constructor(name, from, to) {

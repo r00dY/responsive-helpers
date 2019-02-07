@@ -1,5 +1,4 @@
 import { rs } from "./ResponsiveStyles";
-// import { layout } from "../layout.config";
 
 class Layout {
     constructor(config) {
@@ -41,7 +40,5 @@ Layout.normalizeGridItemParams = function(params) {
 
     return params;
 };
-
-// Layout.main = new Layout(layout);
 
 export { Layout };
