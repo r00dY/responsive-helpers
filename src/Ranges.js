@@ -9,6 +9,18 @@ class Range {
     get isInfinite() {
         return typeof this.to === "undefined" || this.to === null;
     }
+
+    get isCurrent() {
+        return this.from <= window.innerWidth && (typeof this.to === 'undefined' || window.innerWidth <= this.to);
+    }
+
+    css(css) {
+        return `@media only screen and (min-width: ${this.from}px) ${
+            !this.isInfinite ? `and (max-width: ${this.to}px)` : ""
+            } {
+                ${css}
+            }`
+    }
 }
 
 class RangeSet {
@@ -43,6 +55,12 @@ class RangeSet {
         }
     }
 
+    fromTo(from, to) {
+        let rangeFrom = this.get(from);
+        let rangeTo = this.get(to);
+        return new Range(undefined, rangeFrom.from, rangeTo.to);
+    }
+
     get map() {
         let map = {};
         this.array.forEach(range => {
@@ -66,6 +84,12 @@ class RangeSet {
 
     get last() {
         return this._rangesArray[this._rangesArray.length - 1];
+    }
+
+    get current() {
+        for (let i = 0; i < this._rangesArray.length; i++) {
+            if (this._rangesArray[i].isCurrent) { return this._rangesArray[i] }
+        }
     }
 }
 
@@ -104,6 +128,10 @@ class RangeMap {
 
     set(arg, val) {
         this._map[arg] = val;
+    }
+
+    get current() {
+        return this.value(window.innerWidth);
     }
 
     value(res) {
@@ -188,13 +216,7 @@ class RangeMap {
         let style = "";
 
         this.forEach((content, range) => {
-            style += `
-            @media only screen and (min-width: ${range.from}px) ${
-                !range.isInfinite ? `and (max-width: ${range.to}px)` : ""
-            } {
-                ${callback(content, range)}
-            }
-        `;
+            style += range.css(callback(content, range));
         });
 
         return style;

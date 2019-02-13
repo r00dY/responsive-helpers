@@ -54,6 +54,43 @@ describe("RangeSet", function() {
         expect(array[2].name).toBe("md");
         expect(array[3].name).toBe("lg");
         expect(array[4].name).toBe("xl");
+
+        global.window = { innerWidth: 320 };
+        expect(rangeSet.current.name).toBe("xs");
+
+        global.window = { innerWidth: 419 };
+        expect(rangeSet.current.name).toBe("xs");
+
+        global.window = { innerWidth: 420 };
+        expect(rangeSet.current.name).toBe("sm");
+
+        global.window = { innerWidth: 1000 };
+        expect(rangeSet.current.name).toBe("md");
+
+        global.window = { innerWidth: 1400 };
+        expect(rangeSet.current.name).toBe("lg");
+
+        global.window = { innerWidth: 1900 };
+        expect(rangeSet.current.name).toBe("lg");
+
+        global.window = { innerWidth: 1920 };
+        expect(rangeSet.current.name).toBe("xl");
+
+        global.window = { innerWidth: 2500 };
+        expect(rangeSet.current.name).toBe("xl");
+
+        let subrange = rangeSet.fromTo("md", "lg");
+        expect(subrange.from).toBe(992);
+        expect(subrange.to).toBe(1919);
+        expect(subrange.isInfinite).toBe(false);
+
+        subrange = rangeSet.fromTo("md", "xl");
+        expect(subrange.from).toBe(992);
+        expect(subrange.isInfinite).toBe(true);
+
+        console.log(rangeSet.get("xs").css('font-size: 10px'));
+        console.log(rangeSet.get("xl").css('font-size: 10px'));
+        console.log(subrange.css('font-size: 10px'));
     });
 });
 
@@ -80,6 +117,35 @@ describe("RangeMap", function() {
 
         expect(rangeSet.array[5].from).toBe(2500);
         expect(rangeSet.array[5].isInfinite).toBe(true);
+    });
+
+
+    it("correctly returns currently active value", () => {
+        let rangeMap = createRangeMap();
+
+        global.window = { innerWidth: 320 };
+        expect(rangeMap.current).toBe("xs-val");
+
+        global.window = { innerWidth: 419 };
+        expect(rangeMap.current).toBe("xs-val");
+
+        global.window = { innerWidth: 800 };
+        expect(rangeMap.current).toBe("800-val");
+
+        global.window = { innerWidth: 1000 };
+        expect(rangeMap.current).toBe("md-val");
+
+        global.window = { innerWidth: 1400 };
+        expect(rangeMap.current).toBe("md-val");
+
+        global.window = { innerWidth: 1900 };
+        expect(rangeMap.current).toBe("1600-val");
+
+        global.window = { innerWidth: 1920 };
+        expect(rangeMap.current).toBe("xl-val");
+
+        global.window = { innerWidth: 2500 };
+        expect(rangeMap.current).toBe("2500-val");
     });
 
     it("iterates correctly", () => {
@@ -124,9 +190,8 @@ describe("RangeMap", function() {
         expect(ranges.length).toBe(6);
 
         // TODO: in-browser testing!!!
-        // console.log(rangeMapToCSS(
-        //     rangeMap,
-        //     (value, { range }) => {
+        // console.log(createRangeMap().css(
+        //     (value, range) => {
         //         return `content: ${value}`;
         //     }
         // ));
@@ -230,91 +295,3 @@ describe("RangeMap", function() {
         // }));
     });
 });
-
-// describe("rangeMapForEachWithLayout", function() {
-//     let rangeMap = {
-//         xs: "xs-val",
-//         md: "md-val",
-//         800: "800-val",
-//         xl: "xl-val",
-//         1600: "1600-val",
-//         2500: "2500-val"
-//     };
-//
-//     it("behaves properly", () => {
-//         let ranges = [];
-//
-//         rangeMapForEachWithLayout(
-//             rangeMap,
-//             (value, { range, layoutParams }) => {
-//                 ranges.push({
-//                     value: value,
-//                     range: range,
-//                     layoutParams: layoutParams
-//                 });
-//             }
-//         );
-//
-//         expect(ranges[0].range.to).toBe(419);
-//         expect(ranges[0].range.isInfinite).toBe(false);
-//         expect(ranges[0].value).toBe("xs-val");
-//         expect(ranges[0].layoutParams.gutter).toBe(10);
-//
-//         expect(ranges[1].range.from).toBe(420);
-//         expect(ranges[1].range.to).toBe(799);
-//         expect(ranges[1].range.isInfinite).toBe(false);
-//         expect(ranges[1].value).toBe("xs-val");
-//         expect(ranges[1].layoutParams.gutter).toBe(20);
-//
-//         expect(ranges[2].range.from).toBe(800);
-//         expect(ranges[2].range.to).toBe(991);
-//         expect(ranges[2].range.isInfinite).toBe(false);
-//         expect(ranges[2].value).toBe("800-val");
-//         expect(ranges[2].layoutParams.gutter).toBe(20);
-//
-//         expect(ranges[3].range.from).toBe(992);
-//         expect(ranges[3].range.to).toBe(1399);
-//         expect(ranges[3].range.isInfinite).toBe(false);
-//         expect(ranges[3].value).toBe("md-val");
-//         expect(ranges[3].layoutParams.gutter).toBe(30);
-//
-//         expect(ranges[4].range.from).toBe(1400);
-//         expect(ranges[4].range.to).toBe(1599);
-//         expect(ranges[4].range.isInfinite).toBe(false);
-//         expect(ranges[4].value).toBe("md-val");
-//         expect(ranges[4].layoutParams.gutter).toBe(40);
-//
-//         expect(ranges[5].range.from).toBe(1600);
-//         expect(ranges[5].range.to).toBe(1919);
-//         expect(ranges[5].range.isInfinite).toBe(false);
-//         expect(ranges[5].value).toBe("1600-val");
-//         expect(ranges[5].layoutParams.gutter).toBe(40);
-//
-//         expect(ranges[6].range.from).toBe(1920);
-//         expect(ranges[6].range.to).toBe(2499);
-//         expect(ranges[6].range.isInfinite).toBe(false);
-//         expect(ranges[6].value).toBe("xl-val");
-//         expect(ranges[6].layoutParams.gutter).toBe(50);
-//
-//         expect(ranges[7].range.from).toBe(2500);
-//         expect(ranges[7].range.to).toBe(null);
-//         expect(ranges[7].range.isInfinite).toBe(true);
-//         expect(ranges[7].value).toBe("2500-val");
-//         expect(ranges[7].layoutParams.gutter).toBe(50);
-//
-//         expect(ranges.length).toBe(8);
-//
-//         // TODO: in-browser testing!!!
-//         // console.log(rangeMapToCSSWithLayout(
-//         //     rangeMap,
-//         //     (value, { range, layoutParams }) => {
-//         //         return `content: ${value}; gutter: ${layoutParams.gutter};`;
-//         //     }
-//         // ));
-//
-//         // console.log(rangeSetToCSS(({ range, layoutParams}) => {
-//         //     return `gutter: ${layoutParams.gutter}`;
-//         // }));
-//     });
-// });
-//
