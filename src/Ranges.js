@@ -61,6 +61,16 @@ class RangeSet {
         return new Range(undefined, rangeFrom.from, rangeTo.to);
     }
 
+    from(from) {
+        let rangeFrom = this.get(from);
+        return new Range(undefined, rangeFrom.from, undefined);
+    }
+
+    to(to) {
+        let rangeTo = this.get(to);
+        return new Range(undefined, 0, rangeTo.to);
+    }
+
     get map() {
         let map = {};
         this.array.forEach(range => {

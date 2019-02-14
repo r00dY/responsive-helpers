@@ -91,6 +91,15 @@ describe("RangeSet", function() {
         console.log(rangeSet.get("xs").css('font-size: 10px'));
         console.log(rangeSet.get("xl").css('font-size: 10px'));
         console.log(subrange.css('font-size: 10px'));
+
+        subrange = rangeSet.from("md");
+        expect(subrange.from).toBe(992);
+        expect(subrange.isInfinite).toBe(true);
+
+        subrange = rangeSet.to("lg");
+        expect(subrange.from).toBe(0);
+        expect(subrange.to).toBe(1919);
+        expect(subrange.isInfinite).toBe(false);
     });
 });
 
