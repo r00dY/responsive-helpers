@@ -55,6 +55,7 @@ describe("RangeSet", function() {
         expect(array[3].name).toBe("lg");
         expect(array[4].name).toBe("xl");
 
+
         global.window = { innerWidth: 320 };
         expect(rangeSet.current.name).toBe("xs");
 
@@ -88,10 +89,6 @@ describe("RangeSet", function() {
         expect(subrange.from).toBe(992);
         expect(subrange.isInfinite).toBe(true);
 
-        console.log(rangeSet.get("xs").css('font-size: 10px'));
-        console.log(rangeSet.get("xl").css('font-size: 10px'));
-        console.log(subrange.css('font-size: 10px'));
-
         subrange = rangeSet.from("md");
         expect(subrange.from).toBe(992);
         expect(subrange.isInfinite).toBe(true);
@@ -100,6 +97,26 @@ describe("RangeSet", function() {
         expect(subrange.from).toBe(0);
         expect(subrange.to).toBe(1919);
         expect(subrange.isInfinite).toBe(false);
+
+
+        // MediaQuery and CSS.
+
+        const rangeFromTo = rangeSet.fromTo("md", "lg");
+        const rangeTo = rangeSet.to("lg");
+        const rangeFrom = rangeSet.from("lg");
+        const rangeAll = rangeSet.from("xs");
+
+        expect(rangeFromTo.mediaQuery).toBe("(min-width: 992px) and (max-width: 1919px)");
+        expect(rangeTo.mediaQuery).toBe("(max-width: 1919px)");
+        expect(rangeFrom.mediaQuery).toBe("(min-width: 1400px)");
+        expect(rangeAll.mediaQuery).toBe(undefined);
+
+        console.log(rangeFromTo.css('font-size: 10px'));
+        console.log(rangeTo.css('font-size: 10px'));
+        console.log(rangeFrom.css('font-size: 10px'));
+        console.log(rangeAll.css('font-size: 10px'));
+
+
     });
 });
 

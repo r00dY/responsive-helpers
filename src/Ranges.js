@@ -14,12 +14,35 @@ class Range {
         return this.from <= window.innerWidth && (typeof this.to === 'undefined' || window.innerWidth <= this.to);
     }
 
+    get mediaQuery() {
+
+        let fromMedia = (this.from === "undefined" || this.from === null || this.from === 0) ? undefined : `(min-width: ${this.from}px)`;
+        let toMedia = this.isInfinite ? undefined : `(max-width: ${this.to}px)`;
+
+        if (fromMedia && toMedia) {
+            return `${fromMedia} and ${toMedia}`;
+        }
+        else if (!fromMedia && toMedia) {
+            return toMedia;
+        }
+        else if (fromMedia && !toMedia) {
+            return fromMedia;
+        }
+        return;
+    }
+
     css(css) {
-        return `@media only screen and (min-width: ${this.from}px) ${
-            !this.isInfinite ? `and (max-width: ${this.to}px)` : ""
-            } {
+
+        let mediaQuery = this.mediaQuery;
+
+        if (mediaQuery) {
+            return `@media ${this.mediaQuery} {
                 ${css}
             }`
+        }
+        else {
+            return css;
+        }
     }
 }
 
