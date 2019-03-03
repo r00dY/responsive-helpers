@@ -337,28 +337,10 @@ function rslin(from, to, infinite) {
     return new ResponsiveSize(config);
 }
 
-function stylesToCSS(styles) {
-    let css = "";
-
-    Object.entries(styles).forEach(entry => {
-        let propName = entry[0];
-        let val = entry[1];
-
-        if (val instanceof ResponsiveSize) {
-            css += val.css(propName);
-        } else {
-            css += `${JSToCSS(propName)}: ${val};`;
-        }
-    });
-
-    return css;
-}
-
 export {
     ResponsiveSize,
     ResponsiveSizeSegmentValue,
     rs,
     rssv,
-    rslin,
-    stylesToCSS
+    rslin
 };

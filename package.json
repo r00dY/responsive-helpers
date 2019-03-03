@@ -9,6 +9,7 @@
         "test": "./node_modules/.bin/babel-node ./spec/run.js"
     },
     "dependencies": {
+        "reduce-css-calc": "^2.1.6",
         "react": "^16.6.3",
         "react-dom": "^16.6.3",
         "styled-components": "^4.1.3"
