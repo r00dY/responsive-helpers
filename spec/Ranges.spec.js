@@ -1,4 +1,4 @@
-import { RangeSet, RangeMap } from "../src/Ranges";
+import { RangeSet, RangeMap, Range } from "../src/Ranges";
 
 let rangeSet = new RangeSet({
     xs: 0,
@@ -31,17 +31,17 @@ describe("RangeSet", function() {
         expect(rangeSet.second.to).toBe(991);
         expect(rangeSet.second.isInfinite).toBe(false);
 
-        expect(rangeSet.get("md").from).toBe(992);
-        expect(rangeSet.get("md").to).toBe(1399);
-        expect(rangeSet.get("md").isInfinite).toBe(false);
+        expect(rangeSet.md.from).toBe(992);
+        expect(rangeSet.md.to).toBe(1399);
+        expect(rangeSet.md.isInfinite).toBe(false);
 
         expect(rangeSet.last.from).toBe(1920);
         expect(rangeSet.last.to).toBe(undefined);
         expect(rangeSet.last.isInfinite).toBe(true);
 
-        expect(rangeSet.get("xs")).toBe(rangeSet.first);
-        expect(rangeSet.get("sm")).toBe(rangeSet.second);
-        expect(rangeSet.get("xl")).toBe(rangeSet.last);
+        expect(rangeSet.xs).toBe(rangeSet.first);
+        expect(rangeSet.sm).toBe(rangeSet.second);
+        expect(rangeSet.xl).toBe(rangeSet.last);
 
         let array = rangeSet.array;
         expect(array.length).toBe(5);
@@ -117,6 +117,7 @@ describe("RangeSet", function() {
         console.log(rangeAll.css('font-size: 10px'));
 
 
+        // console.log(new Range("md", 720, 1280).mediaQuery);
     });
 });
 

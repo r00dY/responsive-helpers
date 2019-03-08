@@ -67,6 +67,7 @@ class RangeSet {
 
             let range = new Range(name, from, to);
             this._rangesArray.push(range);
+            this[name] = range;
         }
     }
 

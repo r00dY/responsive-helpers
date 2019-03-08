@@ -284,6 +284,15 @@ describe("rslin", function() {
         expect(rs.val(1920, "px")).toBe(25);
         expect(rs.val(2420, "px")).toBe(30);
     });
+
+    let containerWidth = new ResponsiveSize({
+        0: "80vw",
+        1280: "90vw",
+        1600: "1280px"
+    });
+
+    console.log(containerWidth.css('width'));
+    console.log(rslin(10, 50).css('font-size'));
 });
 
 
