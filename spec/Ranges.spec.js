@@ -122,6 +122,18 @@ describe("RangeSet", function() {
 });
 
 describe("RangeMap", function() {
+
+    it ("instantiates correctly from value (not object)", () => {
+
+        let rangeMapWithNumber = new RangeMap(100);
+        expect(rangeMapWithNumber.value(200)).toBe(100);
+        expect(rangeMapWithNumber.value(2200)).toBe(100);
+
+        let rangeMapWithString = new RangeMap("test");
+        expect(rangeMapWithString.value(200)).toBe("test");
+        expect(rangeMapWithString.value(2200)).toBe("test");
+    });
+
     it("returns rangeSet correctly", () => {
         let rangeSet = createRangeMap().rangeSet;
 

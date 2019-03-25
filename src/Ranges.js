@@ -1,3 +1,4 @@
+import {ResponsiveSize} from "./ResponsiveStyles";
 
 class Range {
     constructor(name, from, to) {
@@ -131,6 +132,12 @@ class RangeSet {
 
 class RangeMap {
     constructor(rangeMapConfig) {
+        if (typeof rangeMapConfig !== 'object') {
+            rangeMapConfig = {
+                0: rangeMapConfig
+            }
+        }
+
         let rangeNames = Object.keys(rangeMapConfig);
 
         // Convert breakpoint names to numbers

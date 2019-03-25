@@ -311,7 +311,7 @@ function rssv(val) {
     return new ResponsiveSizeSegmentValue(val);
 }
 
-function /**/rs(val) {
+function rs(val) {
     if (val instanceof ResponsiveSize) {
         return val;
     }
