@@ -158,7 +158,6 @@ describe("RangeMap", function() {
         expect(rangeSet.array[5].isInfinite).toBe(true);
     });
 
-
     it("correctly returns currently active value", () => {
         let rangeMap = createRangeMap();
 
