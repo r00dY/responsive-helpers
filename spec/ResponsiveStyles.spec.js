@@ -4,7 +4,7 @@ import {
     rslin
 } from "../src/ResponsiveStyles";
 
-import { RangeSet } from "../src/Ranges";
+import { RangeSet, RangeMap } from "../src/Ranges";
 
 RangeSet.main = new RangeSet({
     xs: 0,
@@ -175,7 +175,7 @@ describe("ResponsiveSize", () => {
         expect(rs3.val(1500).val("px")).toBe(20);
     });
 
-    it("gets properly multiplied and divided", () => {
+    it("gets properly multiplied and divided by scalar", () => {
         let newrs = rs1
             .multiply(3)
             .multiply(4)
@@ -194,6 +194,23 @@ describe("ResponsiveSize", () => {
         expect(newrs.val(1400, "px")).toBe(0);
         expect(newrs.val(200, "vw")).toBe(0);
         expect(newrs.val(1400, "vw")).toBe(20);
+    });
+
+    it("gets properly multiplied and divided by scalar rangeMap", () => {
+        let newrs = rs1
+            .multiply({ xs: 3, md: 6, lg: 8 })
+            .multiply(new RangeMap({ xs: 4, md: 8, lg: 10 }))
+            .divide({ xs: 6, md: 12, lg: 4 });
+
+        expect(newrs.val(200, "px")).toBe(20);
+        expect(newrs.val(200, "vw")).toBe(0);
+
+        expect(newrs.val(420, "px")).toBe(40);
+
+        expect(newrs.val(1392, "px")).toBe(112);
+
+        expect(newrs.val(1400, "px")).toBe(0);
+        expect(newrs.val(1400, "vw")).toBe(200);
     });
 
     it("adds correctly", () => {

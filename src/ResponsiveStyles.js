@@ -254,18 +254,32 @@ class ResponsiveSize {
         });
     }
 
-    multiply(scalar) {
+    multiply(value) {
+        let scalarRangeMap = ResponsiveSize._normalizeScalarInput(value);
+
         let newRangeMapConfig = {};
 
-        this._rangeMap.forEach((val, range) => {
-            newRangeMapConfig[range.from] = val.rssv.multiply(scalar);
+        scalarRangeMap.crosssect(this._rangeMap).forEach((vals, range) => {
+            let scalar = vals.val1;
+            let rssv = vals.val2.rssv;
+
+            newRangeMapConfig[range.from] = rssv.multiply(scalar);
         });
+
 
         return new ResponsiveSize(newRangeMapConfig);
     }
 
-    divide(scalar) {
-        return this.multiply(1 / scalar);
+    divide(value) {
+        let scalarRangeMap = ResponsiveSize._normalizeScalarInput(value);
+
+        let newConfig = {};
+
+        scalarRangeMap.forEach((scalar, range) => {
+           newConfig[range.from] = 1 / scalar;
+        });
+
+        return this.multiply(newConfig);
     }
 
     add(rs2) {
@@ -306,6 +320,26 @@ class ResponsiveSize {
         return this._rangeMap;
     }
 }
+
+ResponsiveSize._normalizeScalarInput = function(value) {
+    let scalarRangeMap;
+
+    if (value instanceof RangeMap) {
+        scalarRangeMap = value;
+    }
+    else if (typeof value === 'object') {
+        scalarRangeMap = new RangeMap(value);
+    }
+    else if (typeof value === 'number') {
+        scalarRangeMap = new RangeMap({0: value});
+    }
+    else {
+        throw new Error('bad input for RangeMap.multiply or RangeMap.divide');
+    }
+
+    return scalarRangeMap;
+};
+
 
 function rssv(val) {
     return new ResponsiveSizeSegmentValue(val);
