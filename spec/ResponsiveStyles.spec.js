@@ -185,6 +185,8 @@ describe("ResponsiveSize", () => {
         expect(rs2.val(1920, "vw")).toBe(0);
         expect(rs2.val(2000, "vw")).toBe(0);
         expect(rs2.val(2000, "vw")).toBe(0);
+
+        console.log(rs2.css('margin-top'));
     });
 
     it("gets properly constructed from value", () => {

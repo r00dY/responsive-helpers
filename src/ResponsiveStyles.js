@@ -231,9 +231,11 @@ class ResponsiveSize {
             rangeMap = new RangeMap(input);
         }
 
+        let rangeMap2 = new RangeMap({});
+
         rangeMap.forEach((val, range) => {
             if (val instanceof ResponsiveSizeSegmentValue) {
-                rangeMap.set(range.from, {
+                rangeMap2.set(range.from, {
                     rssv: val,
                     from: range.from
                 });
@@ -244,7 +246,7 @@ class ResponsiveSize {
 
                     if (range.from <= r.from && r.to <= range.to) {
 
-                        rangeMap.set(r.from, {
+                        rangeMap2.set(r.from, {
                             rssv: val1.rssv.getValueFromOffset(r.from - val1.from),
                             from: r.from
                         });
@@ -255,14 +257,14 @@ class ResponsiveSize {
             else if  TODO: map of responsive sizes.
              */
             else {
-                rangeMap.set(range.from, {
+                rangeMap2.set(range.from, {
                     rssv: new ResponsiveSizeSegmentValue(val),
                     from: range.from
                 });
             }
         });
 
-        this._rangeMap = rangeMap;
+        this._rangeMap = rangeMap2;
     }
 
     css(propName) {
