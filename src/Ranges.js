@@ -266,6 +266,7 @@ class RangeMap {
 
 RangeMap._normalizeKey = function(key) {
     if (typeof key === "string" && isNaN(parseInt(key))) {
+
         return RangeSet.main.get(key).from;
     }
     return key;

@@ -237,7 +237,24 @@ class ResponsiveSize {
                     rssv: val,
                     from: range.from
                 });
-            } else {
+            }
+            else if (val instanceof ResponsiveSize) {
+
+                val._rangeMap.crosssect(rangeMap).forEach(({ val1, val2 }, r) => {
+
+                    if (range.from <= r.from && r.to <= range.to) {
+
+                        rangeMap.set(r.from, {
+                            rssv: val1.rssv.getValueFromOffset(r.from - val1.from),
+                            from: r.from
+                        });
+                    }
+                });
+            }
+            /*
+            else if  TODO: map of responsive sizes.
+             */
+            else {
                 rangeMap.set(range.from, {
                     rssv: new ResponsiveSizeSegmentValue(val),
                     from: range.from

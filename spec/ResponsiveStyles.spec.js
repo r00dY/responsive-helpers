@@ -142,7 +142,7 @@ const rs1 = new ResponsiveSize({
 });
 
 describe("ResponsiveSize", () => {
-    it("gets properly constructed from object", () => {
+    it("gets properly constructed from object of values", () => {
         expect(rs1.val(200, "px")).toBe(10);
         expect(rs1.val(420, "px")).toBe(20);
         expect(rs1.val(992, "px")).toBe(20);
@@ -161,6 +161,30 @@ describe("ResponsiveSize", () => {
 
         expect(rs1.val(200).val("vw")).toBe(0);
         expect(rs1.val(200).val("px")).toBe(10);
+    });
+
+    it("gets properly constructed from object of responsive sizes", () => {
+        let rs2 = new ResponsiveSize({
+            0: rs1,
+            1000: rslin(10, 25),
+            2000: 20
+        });
+
+        expect(rs2.val(200, "px")).toBe(10);
+        expect(rs2.val(420, "px")).toBe(20);
+        expect(rs2.val(992, "px")).toBe(20);
+        expect(rs2.val(1420, "px")).toBe(20);
+        expect(rs2.val(1920, "px")).toBe(25);
+        expect(rs2.val(2000, "px")).toBe(20);
+        expect(rs2.val(2500, "px")).toBe(20);
+
+        expect(rs2.val(200, "vw")).toBe(0);
+        expect(rs2.val(420, "vw")).toBe(0);
+        expect(rs2.val(992, "vw")).toBe(0);
+        expect(rs2.val(1420, "vw")).toBe(0);
+        expect(rs2.val(1920, "vw")).toBe(0);
+        expect(rs2.val(2000, "vw")).toBe(0);
+        expect(rs2.val(2000, "vw")).toBe(0);
     });
 
     it("gets properly constructed from value", () => {
