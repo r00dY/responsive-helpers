@@ -244,7 +244,7 @@ class ResponsiveSize {
 
                 val._rangeMap.crosssect(rangeMap).forEach(({ val1, val2 }, r) => {
 
-                    if (range.from <= r.from && r.to <= range.to) {
+                    if (range.from <= r.from && (range.isInfinite || r.to <= range.to)) {
 
                         rangeMap2.set(r.from, {
                             rssv: val1.rssv.getValueFromOffset(r.from - val1.from),

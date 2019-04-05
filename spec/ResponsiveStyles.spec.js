@@ -189,6 +189,20 @@ describe("ResponsiveSize", () => {
         console.log(rs2.css('margin-top'));
     });
 
+    it("gets properly constructed from object of responsive sizes (with last item as ResponsiveSize)", () => {
+        let rs2 = new ResponsiveSize({
+            0: rs1,
+            1000: rslin(10, 25, true),
+        });
+
+        expect(rs2.val(200, "px")).toBe(10);
+        expect(rs2.val(420, "px")).toBe(20);
+        expect(rs2.val(992, "px")).toBe(20);
+        expect(rs2.val(1420, "px")).toBe(20);
+        expect(rs2.val(1920, "px")).toBe(25);
+        expect(rs2.val(2420, "px")).toBe(30);
+    });
+
     it("gets properly constructed from value", () => {
         let rs2 = new ResponsiveSize("10px");
         expect(rs2.val(200).val("px")).toBe(10);

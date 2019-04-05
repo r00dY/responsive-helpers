@@ -94,8 +94,8 @@ rangeSet.from('md') // return new `Range` spanning from 992 to infinity
 rangeSet.from('lg') // return new `Range` spanning from 1400 to infinity
 
 // `fromTo` method
-rangeSet.from('md', 'lg') // return new `Range` spanning from 992 to 1919
-rangeSet.from('xs', 'sm') // return new `Range` spanning from 0 to 991
+rangeSet.fromTo('md', 'lg') // return new `Range` spanning from 992 to 1919
+rangeSet.fromTo('xs', 'sm') // return new `Range` spanning from 0 to 991
 ```
 
 There are other helper methods for `RangeSet`:
