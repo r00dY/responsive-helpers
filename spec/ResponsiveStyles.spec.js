@@ -316,8 +316,48 @@ describe("ResponsiveSize", () => {
         expect(newrs.val(1100, "em")).toBe(0);
         expect(newrs.val(1200, "em")).toBe(0);
         expect(newrs.val(1300, "em")).toBe(0);
+    });
 
-        // console.log(newrs.css('font-size'));
+
+    it("adds correctly simple values", () => {
+        const rs1 = new ResponsiveSize({
+            0: "10vw",
+            400: "20vw",
+            800: [20, 0.02],
+            1200: [40, 0.04]
+        });
+
+        let newrs = rs1.add(10);
+        let newrs2 = rs1.add("10vw");
+
+        expect(newrs.val(0, "px")).toBe(10);
+        expect(newrs.val(400, "px")).toBe(10);
+        expect(newrs.val(800, "px")).toBe(30);
+        expect(newrs.val(900, "px")).toBe(30 + 2);
+        expect(newrs.val(1200, "px")).toBe(50);
+        expect(newrs.val(1300, "px")).toBe(50 + 4);
+
+        expect(newrs.val(0, "vw")).toBe(10);
+        expect(newrs.val(400, "vw")).toBe(20);
+        expect(newrs.val(800, "vw")).toBe(0);
+        expect(newrs.val(900, "vw")).toBe(0);
+        expect(newrs.val(1200, "vw")).toBe(0);
+        expect(newrs.val(1300, "vw")).toBe(0);
+
+        expect(newrs2.val(0, "px")).toBe(0);
+        expect(newrs2.val(400, "px")).toBe(0);
+        expect(newrs2.val(800, "px")).toBe(20);
+        expect(newrs2.val(900, "px")).toBe(20 + 2);
+        expect(newrs2.val(1200, "px")).toBe(40);
+        expect(newrs2.val(1300, "px")).toBe(40 + 4);
+
+        expect(newrs2.val(0, "vw")).toBe(20);
+        expect(newrs2.val(400, "vw")).toBe(30);
+        expect(newrs2.val(800, "vw")).toBe(10);
+        expect(newrs2.val(900, "vw")).toBe(10);
+        expect(newrs2.val(1200, "vw")).toBe(10);
+        expect(newrs2.val(1300, "vw")).toBe(10);
+
     });
 });
 

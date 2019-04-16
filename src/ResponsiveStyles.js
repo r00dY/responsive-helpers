@@ -302,6 +302,8 @@ class ResponsiveSize {
     }
 
     add(rs2) {
+        rs2 = rs(rs2);
+
         let rangeMap = this.map.crosssect(rs2.map);
         let newRangeConfig = {};
 
@@ -321,6 +323,8 @@ class ResponsiveSize {
     }
 
     subtract(rs2) {
+        rs2 = rs(rs2);
+
         return this.add(rs2.multiply(-1));
     }
 
