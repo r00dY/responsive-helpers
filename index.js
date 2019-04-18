@@ -9,7 +9,8 @@ import {
 import {
     RangeMap,
     RangeSet,
-    Range
+    Range,
+    rm
 } from "./src/Ranges"
 
 /**
@@ -35,4 +36,5 @@ export {
     RangeMap,
     RangeSet,
     Range,
+    rm
 }

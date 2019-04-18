@@ -1,4 +1,4 @@
-import { RangeSet, RangeMap, Range } from "../src/Ranges";
+import { RangeSet, RangeMap, Range, rm } from "../src/Ranges";
 
 let rangeSet = new RangeSet({
     xs: 0,
@@ -133,6 +133,34 @@ describe("RangeMap", function() {
         expect(rangeMapWithString.value(200)).toBe("test");
         expect(rangeMapWithString.value(2200)).toBe("test");
     });
+
+    it ("instantiates correctly from value (object which is not rangemap)", () => {
+
+        let rmSingleVal = rm({
+            dog: 1,
+            cat: 3
+        });
+
+        expect(rmSingleVal.value(200).dog).toBe(1);
+        expect(rmSingleVal.value(200).cat).toBe(3);
+
+        let rmResponsive = rm({
+            xs: {
+                dog: 1,
+                cat: 3
+            },
+            1000: {
+                dog: 2,
+                cat: 10
+            }
+        });
+
+        expect(rmResponsive.value(200).dog).toBe(1);
+        expect(rmResponsive.value(200).cat).toBe(3);
+        expect(rmResponsive.value(1200).dog).toBe(2);
+        expect(rmResponsive.value(1200).cat).toBe(10);
+    });
+
 
     it("returns rangeSet correctly", () => {
         let rangeSet = createRangeMap().rangeSet;

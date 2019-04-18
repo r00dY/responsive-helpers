@@ -131,24 +131,50 @@ class RangeSet {
 // RangeSet.main = new RangeSet(ranges);
 
 class RangeMap {
-    constructor(rangeMapConfig) {
-        if (typeof rangeMapConfig !== 'object') {
-            rangeMapConfig = {
-                0: rangeMapConfig
+    constructor(input) {
+
+        /**
+         * Automatic detection if rangeMapConfig is object config for RangeMap or a value
+         */
+
+        let config;
+
+        if (typeof input === 'object') {
+            let isResponsive = true;
+
+            Object.keys(input).forEach((key) => {
+               if (!(RangeSet.main.get(key) || !isNaN(parseInt(key)))) {
+                   isResponsive = false;
+               }
+            });
+
+            if (!isResponsive) {
+                config = {
+                    0: input
+                }
+            }
+            else {
+                config = input;
+            }
+        }
+        // If value
+        else {
+            config = {
+                0: input
             }
         }
 
-        let rangeNames = Object.keys(rangeMapConfig);
+        let rangeNames = Object.keys(config);
 
         // Convert breakpoint names to numbers
         rangeNames.forEach(name => {
-            let val = rangeMapConfig[name];
-            delete rangeMapConfig[name];
+            let val = config[name];
+            delete config[name];
 
-            rangeMapConfig[RangeMap._normalizeKey(name)] = val;
+            config[RangeMap._normalizeKey(name)] = val;
         });
 
-        this._map = rangeMapConfig;
+        this._map = config;
     }
 
     get rangeSet() {
@@ -266,14 +292,23 @@ class RangeMap {
 
 RangeMap._normalizeKey = function(key) {
     if (typeof key === "string" && isNaN(parseInt(key))) {
-
         return RangeSet.main.get(key).from;
     }
     return key;
 };
 
+function rm(val) {
+    if (val instanceof RangeMap) {
+        return val;
+    }
+
+    return new RangeMap(val);
+}
+
 export {
     Range,
     RangeSet,
-    RangeMap
+    RangeMap,
+    rm
 };
+
