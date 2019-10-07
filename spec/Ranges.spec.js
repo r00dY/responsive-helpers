@@ -1,14 +1,4 @@
-import { RangeSet, RangeMap, Range, rm } from "../src/Ranges";
-
-let rangeSet = new RangeSet({
-    xs: 0,
-    sm: 420,
-    md: 992,
-    lg: 1400,
-    xl: 1920
-});
-
-RangeSet.main = rangeSet;
+import { RangeSet, RangeMap, R, rm } from "../src/Ranges";
 
 function createRangeMap() {
     return new RangeMap({
@@ -19,35 +9,35 @@ function createRangeMap() {
         1600: "1600-val",
         2500: "2500-val"
     });
-}
+};
 
 describe("RangeSet", function() {
     it("works OK", () => {
-        expect(rangeSet.first.from).toBe(0);
-        expect(rangeSet.first.to).toBe(419);
-        expect(rangeSet.first.isInfinite).toBe(false);
+        expect(R.first.from).toBe(0);
+        expect(R.first.to).toBe(419);
+        expect(R.first.isInfinite).toBe(false);
 
-        expect(rangeSet.second.from).toBe(420);
-        expect(rangeSet.second.to).toBe(991);
-        expect(rangeSet.second.isInfinite).toBe(false);
+        expect(R.second.from).toBe(420);
+        expect(R.second.to).toBe(991);
+        expect(R.second.isInfinite).toBe(false);
 
-        expect(rangeSet.md.from).toBe(992);
-        expect(rangeSet.md.to).toBe(1399);
-        expect(rangeSet.md.isInfinite).toBe(false);
+        expect(R.md.from).toBe(992);
+        expect(R.md.to).toBe(1399);
+        expect(R.md.isInfinite).toBe(false);
 
-        expect(rangeSet.last.from).toBe(1920);
-        expect(rangeSet.last.to).toBe(undefined);
-        expect(rangeSet.last.isInfinite).toBe(true);
+        expect(R.last.from).toBe(1920);
+        expect(R.last.to).toBe(undefined);
+        expect(R.last.isInfinite).toBe(true);
 
-        expect(rangeSet.xs).toBe(rangeSet.first);
-        expect(rangeSet.sm).toBe(rangeSet.second);
-        expect(rangeSet.xl).toBe(rangeSet.last);
+        expect(R.xs).toBe(R.first);
+        expect(R.sm).toBe(R.second);
+        expect(R.xl).toBe(R.last);
 
-        let array = rangeSet.array;
+        let array = R.array;
         expect(array.length).toBe(5);
-        expect(array[0]).toBe(rangeSet.first);
-        expect(array[1]).toBe(rangeSet.get("sm"));
-        expect(array[4]).toBe(rangeSet.last);
+        expect(array[0]).toBe(R.first);
+        expect(array[1]).toBe(R.get("sm"));
+        expect(array[4]).toBe(R.last);
 
         expect(array[0].name).toBe("xs");
         expect(array[1].name).toBe("sm");
@@ -57,43 +47,43 @@ describe("RangeSet", function() {
 
 
         global.window = { innerWidth: 320 };
-        expect(rangeSet.current.name).toBe("xs");
+        expect(R.current.name).toBe("xs");
 
         global.window = { innerWidth: 419 };
-        expect(rangeSet.current.name).toBe("xs");
+        expect(R.current.name).toBe("xs");
 
         global.window = { innerWidth: 420 };
-        expect(rangeSet.current.name).toBe("sm");
+        expect(R.current.name).toBe("sm");
 
         global.window = { innerWidth: 1000 };
-        expect(rangeSet.current.name).toBe("md");
+        expect(R.current.name).toBe("md");
 
         global.window = { innerWidth: 1400 };
-        expect(rangeSet.current.name).toBe("lg");
+        expect(R.current.name).toBe("lg");
 
         global.window = { innerWidth: 1900 };
-        expect(rangeSet.current.name).toBe("lg");
+        expect(R.current.name).toBe("lg");
 
         global.window = { innerWidth: 1920 };
-        expect(rangeSet.current.name).toBe("xl");
+        expect(R.current.name).toBe("xl");
 
         global.window = { innerWidth: 2500 };
-        expect(rangeSet.current.name).toBe("xl");
+        expect(R.current.name).toBe("xl");
 
-        let subrange = rangeSet.fromTo("md", "lg");
+        let subrange = R.fromTo("md", "lg");
         expect(subrange.from).toBe(992);
         expect(subrange.to).toBe(1919);
         expect(subrange.isInfinite).toBe(false);
 
-        subrange = rangeSet.fromTo("md", "xl");
+        subrange = R.fromTo("md", "xl");
         expect(subrange.from).toBe(992);
         expect(subrange.isInfinite).toBe(true);
 
-        subrange = rangeSet.from("md");
+        subrange = R.from("md");
         expect(subrange.from).toBe(992);
         expect(subrange.isInfinite).toBe(true);
 
-        subrange = rangeSet.to("lg");
+        subrange = R.to("lg");
         expect(subrange.from).toBe(0);
         expect(subrange.to).toBe(1919);
         expect(subrange.isInfinite).toBe(false);
@@ -101,10 +91,10 @@ describe("RangeSet", function() {
 
         // MediaQuery and CSS.
 
-        const rangeFromTo = rangeSet.fromTo("md", "lg");
-        const rangeTo = rangeSet.to("lg");
-        const rangeFrom = rangeSet.from("lg");
-        const rangeAll = rangeSet.from("xs");
+        const rangeFromTo = R.fromTo("md", "lg");
+        const rangeTo = R.to("lg");
+        const rangeFrom = R.from("lg");
+        const rangeAll = R.from("xs");
 
         expect(rangeFromTo.mediaQuery).toBe("(min-width: 992px) and (max-width: 1919px)");
         expect(rangeTo.mediaQuery).toBe("(max-width: 1919px)");

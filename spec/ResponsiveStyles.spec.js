@@ -4,15 +4,7 @@ import {
     rslin
 } from "../src/ResponsiveStyles";
 
-import { RangeSet, RangeMap } from "../src/Ranges";
-
-RangeSet.main = new RangeSet({
-    xs: 0,
-    sm: 420,
-    md: 992,
-    lg: 1400,
-    xl: 1920
-});
+import { RangeMap } from "../src/Ranges";
 
 // TODO: in-browser testing!
 

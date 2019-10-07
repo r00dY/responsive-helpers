@@ -1,4 +1,4 @@
-import { RangeMap, RangeSet } from "./Ranges";
+import { RangeMap, RangeSet, R } from "./Ranges";
 
 function JSToCSS(propName) {
     return propName.replace(/([A-Z])/g, g => `-${g[0].toLowerCase()}`);
@@ -383,12 +383,12 @@ function rslin(from, to, infinite) {
     };
 
     let slope =
-        (to - from) / (RangeSet.main.last.from - RangeSet.main.second.from);
+        (to - from) / (R.last.from - R.second.from);
 
-    config[RangeSet.main.second.from] = [from, slope];
+    config[R.second.from] = [from, slope];
 
     if (!infinite) {
-        config[RangeSet.main.last.from] = to;
+        config[R.last.from] = to;
     }
 
     return new ResponsiveSize(config);

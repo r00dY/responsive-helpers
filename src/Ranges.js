@@ -1,5 +1,3 @@
-import {ResponsiveSize} from "./ResponsiveStyles";
-
 class Range {
     constructor(name, from, to) {
         this.name = name;
@@ -33,7 +31,6 @@ class Range {
     }
 
     css(css) {
-
         let mediaQuery = this.mediaQuery;
 
         if (mediaQuery) {
@@ -128,7 +125,18 @@ class RangeSet {
     }
 }
 
-// RangeSet.main = new RangeSet(ranges);
+const RangeSetDefault = new RangeSet({
+    xs: 0, // all phones in vertical mode are below this. Minimal 320px for iPhone SE, maximal 414px for iPhone 6+. All Galaxy Note etc, have lower ones.
+    xs_plus: 420, // horizontal phones + untypical small tablets (like Galaxy Nexus), least important resolution.
+    sm: 720, // all vertical tablets start with 720px (Surface). iPads and Galaxy Tab, etc, all are above. Nexus 7 is an exception, should behave as SM.
+    md: 960, // standard horizontal tablets are > 960px (even with Nexus 7), like iPad or Galaxy
+    lg: 1200, // smaller laptops (1280) and big tablets in horizontal mode (iPad Pro, Galaxy 10)
+    lg_plus: 1366, // most laptops 13 inch and 15 inch (1366, 1440px)
+    xl: 1600, // bigger resolution laptops (1600)
+    xl_plus: 2000 // desktops bigger than full HD
+});
+
+const RangeSetMain = typeof __RANGES__ !== "undefined" ? new RangeSet(__RANGES__) : RangeSetDefault;
 
 class RangeMap {
     constructor(input) {
@@ -143,7 +151,7 @@ class RangeMap {
             let isResponsive = true;
 
             Object.keys(input).forEach((key) => {
-               if (!(RangeSet.main.get(key) || !isNaN(parseInt(key)))) {
+               if (!(RangeSetMain.get(key) || !isNaN(parseInt(key)))) {
                    isResponsive = false;
                }
             });
@@ -292,7 +300,7 @@ class RangeMap {
 
 RangeMap._normalizeKey = function(key) {
     if (typeof key === "string" && isNaN(parseInt(key))) {
-        return RangeSet.main.get(key).from;
+        return RangeSetMain.get(key).from;
     }
     return key;
 };
@@ -305,10 +313,14 @@ function rm(val) {
     return new RangeMap(val);
 }
 
+const R = RangeSetMain;
+
 export {
     Range,
     RangeSet,
     RangeMap,
-    rm
+    rm,
+    RangeSetMain,
+    R
 };
 
