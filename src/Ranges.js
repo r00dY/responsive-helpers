@@ -31,17 +31,14 @@ class Range {
     }
 
     css(css) {
-        let mediaQuery = this.mediaQuery;
-
-        if (mediaQuery) {
+        if (this.mediaQuery) {
             return `@media ${this.mediaQuery} {
                 ${css}
             }`
         }
-        else {
-            return css;
-        }
+        return css
     }
+
 }
 
 class RangeSet {
@@ -139,7 +136,7 @@ const RangeSetDefault = new RangeSet({
 const RangeSetMain = typeof __RANGES__ !== "undefined" ? new RangeSet(__RANGES__) : RangeSetDefault;
 
 class RangeMap {
-    constructor(input) {
+    constructor(input, rangeSetMain) {
 
         /**
          * Automatic detection if rangeMapConfig is object config for RangeMap or a value
@@ -171,7 +168,6 @@ class RangeMap {
                 0: input
             }
         }
-
         let rangeNames = Object.keys(config);
 
         // Convert breakpoint names to numbers
@@ -281,7 +277,7 @@ class RangeMap {
                 i++;
             }
 
-            minBreakpoint = newBreakpoint;
+            minBreakpoint = newBreakpoint;/**/
         }
 
         return new RangeMap(config);
@@ -292,6 +288,16 @@ class RangeMap {
 
         this.forEach((content, range) => {
             style += range.css(callback(content, range));
+        });
+
+        return style;
+    }
+
+    cssObject(callback) {
+        let style = {};
+
+        this.forEach((content, range) => {
+            style[`@media ${range.mediaQuery}`] = callback(content, range);
         });
 
         return style;

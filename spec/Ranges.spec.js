@@ -152,6 +152,18 @@ describe("RangeMap", function() {
     });
 
 
+    it ("return css correctly", () => {
+
+        let rangeMap = createRangeMap();
+        const css = rangeMap.cssObject((val, range) => ({
+            margin: val
+        }));
+
+        console.log(css);
+    });
+
+
+
     it("returns rangeSet correctly", () => {
         let rangeSet = createRangeMap().rangeSet;
 
@@ -251,6 +263,8 @@ describe("RangeMap", function() {
         //         return `content: ${value}`;
         //     }
         // ));
+
+
     });
 
     it("returns value correctly for resolution", () => {

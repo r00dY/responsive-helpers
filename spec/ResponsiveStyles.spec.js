@@ -179,6 +179,7 @@ describe("ResponsiveSize", () => {
         expect(rs2.val(2000, "vw")).toBe(0);
 
         console.log(rs2.css('margin-top'));
+        console.log(rs2.cssObject('margin-top'));
     });
 
     it("gets properly constructed from object of responsive sizes (with last item as ResponsiveSize)", () => {
