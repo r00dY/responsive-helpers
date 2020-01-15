@@ -39,6 +39,15 @@ class Range {
         return css
     }
 
+    cssObject(css) {
+        if (this.mediaQuery) {
+            return {
+                [`@media ${this.mediaQuery}`]: css
+            }
+        }
+        return css
+    }
+
 }
 
 class RangeSet {
@@ -297,7 +306,10 @@ class RangeMap {
         let style = {};
 
         this.forEach((content, range) => {
-            style[`@media ${range.mediaQuery}`] = callback(content, range);
+            style = {
+                ...style,
+                ...range.cssObject(callback(content, range))
+            };
         });
 
         return style;

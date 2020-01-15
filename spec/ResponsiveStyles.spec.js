@@ -1,10 +1,11 @@
 import {
     ResponsiveSize,
     ResponsiveSizeSegmentValue,
-    rslin
+    rslin,
+    rs
 } from "../src/ResponsiveStyles";
 
-import { RangeMap } from "../src/Ranges";
+import {RangeMap} from "../src/Ranges";
 
 // TODO: in-browser testing!
 
@@ -231,9 +232,9 @@ describe("ResponsiveSize", () => {
 
     it("gets properly multiplied and divided by scalar rangeMap", () => {
         let newrs = rs1
-            .multiply({ xs: 3, md: 6, lg: 8 })
-            .multiply(new RangeMap({ xs: 4, md: 8, lg: 10 }))
-            .divide({ xs: 6, md: 12, lg: 4 });
+            .multiply({xs: 3, md: 6, lg: 8})
+            .multiply(new RangeMap({xs: 4, md: 8, lg: 10}))
+            .divide({xs: 6, md: 12, lg: 4});
 
         expect(newrs.val(200, "px")).toBe(20);
         expect(newrs.val(200, "vw")).toBe(0);
@@ -352,9 +353,29 @@ describe("ResponsiveSize", () => {
         expect(newrs2.val(1300, "vw")).toBe(10);
 
     });
+
+
+    // it("works", () => {
+    //     const container = rs({
+    //         xs: "90vw",
+    //         lg: "85vw",
+    //         xl: "1600px"
+    //     });
+    //
+    //     let width = rs("90vw");
+    //
+    //     let margin = rs("100vw")
+    //         .subtract(width)
+    //         .divide(2)
+    //
+    //
+    //     console.log('===========');
+    //
+    //     console.log(margin.css('margin-left'));
+    // })
 });
 
-describe("rslin", function() {
+describe("rslin", function () {
     it("works with infinite=false", () => {
         let rs = rslin(10, 25);
         expect(rs.val(320, "px")).toBe(10);

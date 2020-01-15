@@ -1,4 +1,4 @@
-import { RangeSet, RangeMap, R, rm } from "../src/Ranges";
+import { RangeSet, RangeMap, Range, R, rm } from "../src/Ranges";
 
 function createRangeMap() {
     return new RangeMap({
@@ -105,10 +105,10 @@ describe("RangeSet", function() {
         console.log(rangeTo.css('font-size: 10px'));
         console.log(rangeFrom.css('font-size: 10px'));
         console.log(rangeAll.css('font-size: 10px'));
-
-
         // console.log(new Range("md", 720, 1280).mediaQuery);
+
     });
+
 });
 
 describe("RangeMap", function() {
@@ -160,6 +160,17 @@ describe("RangeMap", function() {
         }));
 
         console.log(css);
+
+        // empty RangeMap
+        let rangeMap2 = new RangeMap({
+            0: {
+                test: 0
+            }
+        });
+
+        console.log(rangeMap2.cssObject(styles => ({...styles})));
+        console.log(rangeMap2.css((val, range) => `test: ${val.test}`));
+
     });
 
 
