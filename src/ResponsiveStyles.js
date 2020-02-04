@@ -275,7 +275,7 @@ class ResponsiveSize {
 
     cssObject(propName) {
         return this._rangeMap.cssObject((val, range) => {
-            return { [JSToCSS(propName)]: val.rssv.css(range.from) };;
+            return { [propName]: val.rssv.css(range.from) };
         });
     }
 
