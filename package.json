@@ -1,7 +1,7 @@
 {
     "name": "responsive-helpers",
     "description": "Helpers for respnonsiveness, grids, breakpoints, fluid sizing",
-    "version": "0.2.6",
+    "version": "0.2.7",
     "main": "dist/bundle.js",
     "scripts": {
         "storybook": "start-storybook -s . -p 9001 -c .storybook",
